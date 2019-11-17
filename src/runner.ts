@@ -9,7 +9,7 @@ export async function goveralls(token: string, profile: string) {
   for (const name of names) {
     const value = process.env[name];
     if (value) {
-      env["PATH"] = value;
+      env[name] = value;
     }
   }
   await exec.exec(
