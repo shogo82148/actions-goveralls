@@ -43,7 +43,6 @@ export async function goveralls(token: string, profile: string) {
       env[name] = value;
     }
   }
-  env['BUILD_NUMBER'] = process.env['GITHUB_ACTION'];
   await exec.exec(
     get_goveralls_path(),
     [`-coverprofile=${profile}`, "-service=github"],
