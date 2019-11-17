@@ -8,17 +8,17 @@ all: linux darwin windows ## build all binaries
 linux: bin/goveralls_linux_amd64 ## build Linux binary
 bin/goveralls_linux_amd64: go.mod go.sum
 	mkdir -p bin
-	GOOS=linux GOARCH=amd64 ./run-in-docker.sh go build -o bin/goveralls_linux_amd64 github.com/mattn/goveralls
+	GOOS=linux GOARCH=amd64 go build -o bin/goveralls_linux_amd64 github.com/mattn/goveralls
 
 darwin: bin/goveralls_darwin_amd64 ## build macOS binary
 bin/goveralls_darwin_amd64: go.mod go.sum
 	mkdir -p bin
-	GOOS=darwin GOARCH=amd64 ./run-in-docker.sh go build -o bin/goveralls_darwin_amd64 github.com/mattn/goveralls
+	GOOS=darwin GOARCH=amd64 go build -o bin/goveralls_darwin_amd64 github.com/mattn/goveralls
 
 windows: bin/goveralls_windows_amd64.exe ## build windows binary
 bin/goveralls_windows_amd64.exe: go.mod go.sum
 	mkdir -p bin
-	GOOS=darwin GOARCH=amd64 ./run-in-docker.sh go build -o bin/goveralls_windows_amd64.exe github.com/mattn/goveralls
+	GOOS=darwin GOARCH=amd64 go build -o bin/goveralls_windows_amd64.exe github.com/mattn/goveralls
 
 .PHONY: test
 test: ## run Golang test
