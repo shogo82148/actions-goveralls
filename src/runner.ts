@@ -2,6 +2,7 @@ import * as path from "path";
 import * as exec from "@actions/exec";
 
 export async function goveralls(token: string, profile: string) {
+  console.log(process.cwd())
   await exec.exec(
     get_goveralls_path(),
     [`-coverprofile=${profile}`, "-service=github"],
