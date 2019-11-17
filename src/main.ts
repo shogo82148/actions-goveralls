@@ -1,16 +1,11 @@
 import * as core from "@actions/core";
-import { wait } from "./wait";
+import { goveralls } from "./runner";
 
 async function run() {
   try {
-    const ms = core.getInput("milliseconds");
-    console.log(`Waiting ${ms} milliseconds ...`);
-
-    core.debug(new Date().toTimeString());
-    await wait(parseInt(ms, 10));
-    core.debug(new Date().toTimeString());
-
-    core.setOutput("time", new Date().toTimeString());
+    const token = core.getInput("github-token");
+    const profile = core.getInput("path-to-profile");
+    await goveralls(token, profile);
   } catch (error) {
     core.setFailed(error.message);
   }

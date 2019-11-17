@@ -1,10 +1,13 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'actions-goveralls'
+description: 'Coveralls GitHub Action with Go integration powered by mattn/goveralls'
+author: 'Ichinose Shogo'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  github-token:
+    description: Coveralls uses this token to verify the posted coverage data on the repo and create a new check based on the results.
+    required: true
+  path-to-profile:
+    description: a path to your cover profile.
+    required: true
 runs:
   using: 'node12'
   main: 'lib/main.js'
