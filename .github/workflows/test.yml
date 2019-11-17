@@ -28,7 +28,6 @@ jobs:
     - run: npm test
     - run: make all
     - run: make test
-    - run: echo $PATH
     - uses: ./
       with: 
         github-token: ${{ secrets.GITHUB_TOKEN }}
