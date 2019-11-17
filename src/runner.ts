@@ -5,7 +5,38 @@ export async function goveralls(token: string, profile: string) {
   const env = {
     COVERALLS_TOKEN: token
   };
-  const names = ["PATH", "GOROOT", "GOPATH", "GOBIN"];
+
+  // copy environment values related to Go
+  const names = [
+    "PATH",
+    "GOROOT",
+    "GOPATH",
+    "GOBIN",
+    "GOTMPDIR",
+    "GOTOOLDIR",
+    "GOOS",
+    "GOARCH",
+
+    // GOCAHE and fall back directories
+    "GOCACHE",
+    "LocalAppData",
+    "HOME",
+    "XDG_CACHE_HOME",
+
+    // GitHub events information
+    "GITHUB_WORKFLOW",
+    "GITHUB_ACTION",
+    "GITHUB_ACTIONS",
+    "GITHUB_ACTOR",
+    "GITHUB_REPOSITORY",
+    "GITHUB_EVENT_NAME",
+    "GITHUB_EVENT_PATH",
+    "GITHUB_WORKSPACE",
+    "GITHUB_SHA",
+    "GITHUB_REF",
+    "GITHUB_HEAD_REF",
+    "GITHUB_BASE_REF"
+  ];
   for (const name of names) {
     const value = process.env[name];
     if (value) {
