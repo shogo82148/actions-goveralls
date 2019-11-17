@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
+  "name": "actions-goveralls",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "A GitHub Action for mattn/goveralls",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/shogo82148/actions-goveralls.git"
   },
   "keywords": [
     "actions",
     "node",
     "setup"
   ],
-  "author": "YourNameOrOrganization",
+  "author": "Ichinose Shogo",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.0.0"
