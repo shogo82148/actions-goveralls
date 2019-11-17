@@ -2,14 +2,21 @@ import * as path from "path";
 import * as exec from "@actions/exec";
 
 export async function goveralls(token: string, profile: string) {
+  const env = {
+    COVERALLS_TOKEN: token
+  };
+  const names = ["PATH", "GOROOT", "GOPATH", "GOBIN"];
+  for (const name of names) {
+    const value = process.env[name];
+    if (value) {
+      env["PATH"] = value;
+    }
+  }
   await exec.exec(
     get_goveralls_path(),
     [`-coverprofile=${profile}`, "-service=github"],
     {
-      env: {
-        "COVERALLS_TOKEN": token,
-        "PATH": process.env['PATH'] || "",
-      }
+      env: env
     }
   );
 }
