@@ -2,6 +2,7 @@ help: ## show this text
 	# http://postd.cc/auto-documented-makefile/
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'¥
 
+.PHONY: all
 all: linux darwin windows ## build all binaries
 
 linux: bin/goveralls_linux_amd64 ## build Linux binary
@@ -18,3 +19,7 @@ windows: bin/goveralls_windows_amd64.exe ## build windows binary
 bin/goveralls_windows_amd64.exe: go.mod go.sum
 	mkdir -p bin
 	GOOS=darwin GOARCH=amd64 ./run-in-docker.sh go build -o bin/goveralls_windows_amd64.exe github.com/mattn/goveralls
+
+.PHONY: test
+test: ## run Golang test
+	go test -v -coverprofile=profile.cov ./...

@@ -1,5 +1,5 @@
 //+build tools
 
-package main
+package actions
 
-import _ "github.com/mattn/goveralls"
+import . "github.com/mattn/goveralls"

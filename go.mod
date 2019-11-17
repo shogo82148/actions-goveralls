@@ -1,4 +1,4 @@
-module main
+module github.com/shogo82148/actions-goveralls
 
 go 1.13
 
