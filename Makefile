@@ -18,7 +18,7 @@ bin/goveralls_darwin_amd64: go.mod go.sum
 windows: bin/goveralls_windows_amd64.exe ## build windows binary
 bin/goveralls_windows_amd64.exe: go.mod go.sum
 	mkdir -p bin
-	GOOS=darwin GOARCH=amd64 go build -o bin/goveralls_windows_amd64.exe github.com/mattn/goveralls
+	GOOS=windows GOARCH=amd64 go build -o bin/goveralls_windows_amd64.exe github.com/mattn/goveralls
 
 .PHONY: test
 test: ## run Golang test
