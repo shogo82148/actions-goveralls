@@ -51,7 +51,7 @@ function parseBoolean(s: string): boolean {
     case "FALSE":
       return false;
   }
-  throw `invalid boolean value: ${s}`;
+  throw new Error(`invalid boolean value: ${s}`);
 }
 
 interface WebhookResult {
