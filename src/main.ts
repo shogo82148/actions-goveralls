@@ -40,6 +40,9 @@ function parseBoolean(s: string): boolean {
     case "true":
     case "True":
     case "TRUE":
+    case "on":
+    case "On":
+    case "ON":
       return true;
     case "n":
     case "N":
@@ -49,6 +52,9 @@ function parseBoolean(s: string): boolean {
     case "false":
     case "False":
     case "FALSE":
+    case "off":
+    case "Off":
+    case "OFF":
       return false;
   }
   throw new Error(`invalid boolean value: ${s}`);
