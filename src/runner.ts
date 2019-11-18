@@ -1,9 +1,15 @@
 import * as path from "path";
 import * as exec from "@actions/exec";
 
-export async function goveralls(token: string, profile: string) {
+export async function goveralls(
+  token: string,
+  profile: string,
+  job_id: string,
+  parallel: boolean
+) {
   const env = {
-    COVERALLS_TOKEN: token
+    COVERALLS_TOKEN: token,
+    BUILD_NUMBER: job_id
   };
 
   // copy environment values related to Go
@@ -43,13 +49,13 @@ export async function goveralls(token: string, profile: string) {
       env[name] = value;
     }
   }
-  await exec.exec(
-    get_goveralls_path(),
-    [`-coverprofile=${profile}`, "-service=github"],
-    {
-      env: env
-    }
-  );
+  const args = [`-coverprofile=${profile}`, "-service=github"];
+  if (parallel) {
+    args.push("-parallel");
+  }
+  await exec.exec(get_goveralls_path(), args, {
+    env: env
+  });
 }
 
 function get_goveralls_path(): string {
