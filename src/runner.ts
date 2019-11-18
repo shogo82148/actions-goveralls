@@ -4,10 +4,12 @@ import * as exec from "@actions/exec";
 export async function goveralls(
   token: string,
   profile: string,
+  job_id: string,
   parallel: boolean
 ) {
   const env = {
-    COVERALLS_TOKEN: token
+    "COVERALLS_TOKEN": token,
+    "BUILD_NUMBER": job_id
   };
 
   // copy environment values related to Go
