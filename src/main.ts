@@ -7,8 +7,10 @@ async function run() {
   try {
     const token = core.getInput("github-token");
     const profile = core.getInput("path-to-profile");
-    const parallel = parseBoolean(core.getInput("parallel"));
-    const parallel_finished = parseBoolean(core.getInput("parallel-finished"));
+    const parallel = parseBoolean(core.getInput("parallel") || "false");
+    const parallel_finished = parseBoolean(
+      core.getInput("parallel-finished") || "false"
+    );
     const event = JSON.parse(
       fs.readFileSync(process.env.GITHUB_EVENT_PATH!.toString(), "utf8")
     );
