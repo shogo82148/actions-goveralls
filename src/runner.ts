@@ -8,8 +8,8 @@ export async function goveralls(
   parallel: boolean
 ) {
   const env = {
-    "COVERALLS_TOKEN": token,
-    "BUILD_NUMBER": job_id
+    COVERALLS_TOKEN: token,
+    BUILD_NUMBER: job_id
   };
 
   // copy environment values related to Go
@@ -51,15 +51,11 @@ export async function goveralls(
   }
   const args = [`-coverprofile=${profile}`, "-service=github"];
   if (parallel) {
-    args.push('-parallel');
+    args.push("-parallel");
   }
-  await exec.exec(
-    get_goveralls_path(),
-    args,
-    {
-      env: env
-    }
-  );
+  await exec.exec(get_goveralls_path(), args, {
+    env: env
+  });
 }
 
 function get_goveralls_path(): string {
