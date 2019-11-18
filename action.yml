@@ -8,12 +8,15 @@ inputs:
   path-to-profile:
     description: a path to your cover profile.
     required: false
+    default: ''
   parallel:
     description: 'Set to true if you are running parallel jobs, then use "parallel_finished: true" for the last action.'
     required: false
+    default: false
   parallel-finished:
     description: 'Set to true for the last action when using "parallel: true".'
     required: false
+    default: false
 
 runs:
   using: 'node12'

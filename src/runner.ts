@@ -1,14 +1,35 @@
 import * as path from "path";
 import * as exec from "@actions/exec";
+import axios, { AxiosResponse } from "axios";
+import fs from "fs";
 
-export async function goveralls(
-  token: string,
-  profile: string,
-  job_id: string,
-  parallel: boolean
-) {
+interface Options {
+  token: string;
+  profile: string;
+  parallel: boolean;
+  parallel_finished: boolean;
+}
+
+export async function goveralls(options: Options) {
+  const event = JSON.parse(
+    fs.readFileSync(process.env.GITHUB_EVENT_PATH!.toString(), "utf8")
+  );
+  const sha = process.env.GITHUB_SHA!.toString().substr(0, 9);
+  const job_id =
+    process.env.GITHUB_EVENT_NAME === "pull_request"
+      ? `${sha}-PR-${event.number}`
+      : sha;
+
+  if (options.parallel_finished) {
+    await finish(options, job_id);
+  } else {
+    await run(options, job_id);
+  }
+}
+
+async function run(options: Options, job_id: string) {
   const env = {
-    COVERALLS_TOKEN: token,
+    COVERALLS_TOKEN: options.token,
     BUILD_NUMBER: job_id
   };
 
@@ -49,13 +70,35 @@ export async function goveralls(
       env[name] = value;
     }
   }
-  const args = [`-coverprofile=${profile}`, "-service=github"];
-  if (parallel) {
+  const args = [`-coverprofile=${options.profile}`, "-service=github"];
+  if (options.parallel) {
     args.push("-parallel");
   }
   await exec.exec(get_goveralls_path(), args, {
     env: env
   });
+}
+
+interface WebhookResult {
+  canceled: boolean;
+  done: boolean;
+  errored: boolean;
+}
+
+async function finish(options: Options, job_id: string) {
+  const payload = {
+    repo_token: options.token,
+    repo_name: process.env.GITHUB_REPOSITORY,
+    payload: { build_num: job_id, status: "done" }
+  };
+
+  const response: AxiosResponse<WebhookResult> = await axios.post(
+    "https://coveralls.io/webhook",
+    payload
+  );
+  if (!response.data.done) {
+    throw new Error(JSON.stringify(response.data));
+  }
 }
 
 function get_goveralls_path(): string {
