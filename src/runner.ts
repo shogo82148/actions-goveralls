@@ -1,7 +1,11 @@
 import * as path from "path";
 import * as exec from "@actions/exec";
 
-export async function goveralls(token: string, profile: string) {
+export async function goveralls(
+  token: string,
+  profile: string,
+  parallel: boolean
+) {
   const env = {
     COVERALLS_TOKEN: token
   };
@@ -43,9 +47,13 @@ export async function goveralls(token: string, profile: string) {
       env[name] = value;
     }
   }
+  const args = [`-coverprofile=${profile}`, "-service=github"];
+  if (parallel) {
+    args.push('-parallel');
+  }
   await exec.exec(
     get_goveralls_path(),
-    [`-coverprofile=${profile}`, "-service=github"],
+    args,
     {
       env: env
     }
