@@ -9,7 +9,8 @@ async function run() {
       parallel: parseBoolean(core.getInput("parallel") || "false"),
       parallel_finished: parseBoolean(
         core.getInput("parallel-finished") || "false"
-      )
+      ),
+      job_number: core.getInput("job-number")
     });
   } catch (error) {
     core.setFailed(error.message);

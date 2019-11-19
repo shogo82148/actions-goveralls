@@ -17,6 +17,9 @@ inputs:
     description: 'Set to true for the last action when using "parallel: true".'
     required: false
     default: false
+  job-number:
+    description: "job number"
+    required: false
 
 runs:
   using: 'node12'
