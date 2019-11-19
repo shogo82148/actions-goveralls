@@ -8,6 +8,7 @@ interface Options {
   profile: string;
   parallel: boolean;
   parallel_finished: boolean;
+  job_number: string;
 }
 
 export async function goveralls(options: Options) {
@@ -29,8 +30,7 @@ export async function goveralls(options: Options) {
 
 async function run(options: Options, job_id: string) {
   const env = {
-    COVERALLS_TOKEN: options.token,
-    BUILD_NUMBER: job_id
+    COVERALLS_TOKEN: options.token
   };
 
   // copy environment values related to Go
@@ -70,7 +70,14 @@ async function run(options: Options, job_id: string) {
       env[name] = value;
     }
   }
-  const args = [`-coverprofile=${options.profile}`, "-service=github"];
+  const args = [
+    `-coverprofile=${options.profile}`,
+    "-service=github",
+    `-jobid=${job_id}`
+  ];
+  if (options.job_number) {
+    args.push(`-jobnumber=${options.job_number}`);
+  }
   if (options.parallel) {
     args.push("-parallel");
   }
