@@ -11,7 +11,7 @@ WORKING=$CURRENT/.working
 
 : clone
 ORIGIN=$(git remote get-url origin)
-rm -rf "$WORKING"
+chmod -R +w "$WORKING" &&  rm -rf "$WORKING"
 git clone "$ORIGIN" "$WORKING"
 cd "$WORKING"
 
@@ -40,4 +40,4 @@ git tag -fa "v$MAJOR" -m "release v$MAJOR.$MINOR.$PATCH"
 git push -f origin "v$MAJOR"
 
 cd "$CURRENT"
-rm -rf "$WORKING"
+chmod -R +w "$WORKING" &&  rm -rf "$WORKING"
