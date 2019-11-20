@@ -16,8 +16,8 @@
   },
   "keywords": [
     "actions",
-    "node",
-    "setup"
+    "coveralls",
+    "go"
   ],
   "author": "Ichinose Shogo",
   "license": "MIT",
