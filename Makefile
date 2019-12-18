@@ -4,7 +4,7 @@ help: ## show this text
 
 GO=go
 
-.PHONY: all
+.PHONY: all linux darwin windows
 all: linux darwin windows ## build all binaries
 
 linux: bin/goveralls_linux_amd64 ## build Linux binary

@@ -32,9 +32,9 @@ perl -ne 'print unless m(^/node_modules/|/lib/|/bin/$)' -i .gitignore
 
 : publish to GitHub
 git add .
-git commit -m "bump up to v$MAJOR.$MINOR.$PATCH" || true
-git push origin "releases/v$MAJOR"
+git commit -m "bump up to v$MAJOR.$MINOR.$PATCH"
 git tag -a "v$MAJOR.$MINOR.$PATCH" -m "release v$MAJOR.$MINOR.$PATCH"
+git push origin "releases/v$MAJOR"
 git push origin "v$MAJOR.$MINOR.$PATCH"
 git tag -fa "v$MAJOR" -m "release v$MAJOR.$MINOR.$PATCH"
 git push -f origin "v$MAJOR"
