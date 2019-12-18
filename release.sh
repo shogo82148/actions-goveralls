@@ -24,6 +24,7 @@ npm install
 npm run build
 
 : build goveralls
+rm -rf bin
 make "GO=$WORKING/run-in-docker.sh go" all
 
 : remove development packages from node_modules
