@@ -5,6 +5,7 @@ inputs:
   github-token:
     description: Coveralls uses this token to verify the posted coverage data on the repo and create a new check based on the results.
     required: true
+    default: '${{ github.token }}'
   path-to-profile:
     description: a path to your cover profile.
     required: false
