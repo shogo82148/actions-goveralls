@@ -74,7 +74,8 @@ async function run(options: Options, job_id: string) {
   const args = [
     `-coverprofile=${options.profile}`,
     "-service=github",
-    `-jobid=${job_id}`
+    `-jobid=${job_id}`,
+    "-stdout"
   ];
   if (options.parallel) {
     args.push("-parallel");
