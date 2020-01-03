@@ -30,8 +30,7 @@ jobs:
     - run: npm run build
     - run: npm test
     - uses: ./
-      with: 
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      with:
         path-to-profile: profile.cov
         parallel: true
         job-number: ${{ strategy.job-index }}
@@ -52,5 +51,4 @@ jobs:
     - run: npm run build
     - uses: ./
       with: 
-        github-token: ${{ secrets.GITHUB_TOKEN }}
         parallel-finished: true
