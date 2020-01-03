@@ -1,3 +1,4 @@
+// Package actions is used for testing of the actions-goveralls.
 package actions
 
 import (
@@ -5,9 +6,10 @@ import (
 )
 
 func main() {
-	run()
+	Run()
 }
 
-func run() {
+// Run runs some awesome code
+func Run() {
 	fmt.Println("some awesome code here")
 }

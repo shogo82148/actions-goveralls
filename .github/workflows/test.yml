@@ -15,21 +15,29 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
+        go:
+          - '1.2'  # minimum version that goveralls supports
+          - '1.10' # last version that doesn't support go modules
+          - '1.11' # first version that supports go modules
+          - '1.x'  # latest version
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
     - name: Set up Go
       uses: actions/setup-go@v1
       with:
         go-version: "1.x"
-    - run: make all
-    - run: make test
-
-    - run: npm ci
-    - run: npm run build
+    - name: Set up the action
+      run: |
+        make all      # build goveralls binaries
+        npm ci        # install node modules
+        npm run build # build JavaScript
     - run: npm test
-    - uses: ./
+
+    - run: go test -v -coverprofile=profile.cov ./...
+    - run: send coverage
+      uses: ./
       with:
         path-to-profile: profile.cov
         parallel: true
@@ -44,10 +52,12 @@ jobs:
       uses: actions/setup-go@v1
       with:
         go-version: "1.x"
-    - run: make all
-
-    - run: npm ci
-    - run: npm run build
-    - uses: ./
+    - name: Set up the action
+      run: |
+        make all      # build goveralls binaries
+        npm ci        # install node modules
+        npm run build # build JavaScript
+    - name: finalize parallel build
+      uses: ./
       with: 
         parallel-finished: true
