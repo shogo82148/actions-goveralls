@@ -53,7 +53,7 @@ jobs:
           path: src/github.com/shogo82148/actions-goveralls
       - run: git fetch --depth=1 origin "$GITHUB_HEAD_REF"
         working-directory: src/github.com/shogo82148/actions-goveralls
-        if: github.event_name == "pull_request"
+        if: github.event_name == 'pull_request'
       - run: go test -v -coverprofile=profile.cov ./...
         env:
           GO111MODULE: "on"
