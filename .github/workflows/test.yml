@@ -60,7 +60,7 @@ jobs:
         shell: bash
         working-directory: src/github.com/shogo82148/actions-goveralls
       - name: send coverage
-        uses: ./
+        uses: actions/
         with:
           path-to-profile: src/github.com/shogo82148/actions-goveralls/profile.cov
           parallel: true
