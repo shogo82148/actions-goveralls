@@ -51,6 +51,7 @@ jobs:
       - run: go test -v -coverprofile=profile.cov ./...
         env:
           GO111MODULE: "on"
+          GOPATH: ${{ github.workspace }}
         shell: bash
         working-directory: src/github.com/shogo82148/actions-goveralls
       - name: send coverage
