@@ -21,13 +21,13 @@ jobs:
           - '1.11' # first version that supports go modules
           - '1.x'  # latest version
 
-      # unfortunately, Go 1.2, 1.3, and 1.4 does not run in macos-latest in 2020/01/03
-      exclude:
-        - os: macos-latest
-          go: '1.2'
-      include:
-        - os: macos-latest
-          go: '1.5'
+        # unfortunately, Go 1.2, 1.3, and 1.4 does not run in macos-latest in 2020/01/03
+        exclude:
+          - os: macos-latest
+            go: '1.2'
+        include:
+          - os: macos-latest
+            go: '1.5'
 
     runs-on: ${{ matrix.os }}
     steps:
