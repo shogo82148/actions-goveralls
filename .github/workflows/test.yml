@@ -33,7 +33,7 @@ jobs:
 
       - name: Set up the action
         run: |
-          make "GO=run-in-docker.sh go" all # build goveralls binaries
+          make "GO=$PWD/run-in-docker.sh go" all # build goveralls binaries
           npm ci        # install node modules
           npm run build # build JavaScript
       - run: npm test
