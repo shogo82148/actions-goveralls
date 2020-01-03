@@ -62,8 +62,9 @@ jobs:
       - name: send coverage
         uses: ./actions/
         with:
-          path-to-profile: src/github.com/shogo82148/actions-goveralls/profile.cov
+          path-to-profile: profile.cov
           parallel: true
+          working-directory: src/github.com/shogo82148/actions-goveralls
 
   finish:
     needs: test
