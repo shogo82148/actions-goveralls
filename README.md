@@ -1,6 +1,7 @@
 # shogo82148/actions-goveralls
 
 [![test](https://github.com/shogo82148/actions-goveralls/workflows/test/badge.svg?branch=master)](https://github.com/shogo82148/actions-goveralls/actions)
+[![Coverage Status](https://coveralls.io/repos/github/shogo82148/actions-goveralls/badge.svg)](https://coveralls.io/github/shogo82148/actions-goveralls)
 
 [Coveralls](https://coveralls.io/) GitHub Action with Go integration powered by [mattn/goveralls](https://github.com/mattn/goveralls).
 
