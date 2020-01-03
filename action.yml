@@ -21,6 +21,7 @@ inputs:
   job-number:
     description: "job number"
     required: false
+    default: '${{ strategy.job-index }}'
 
 runs:
   using: 'node12'

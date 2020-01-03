@@ -75,11 +75,11 @@ async function run(options: Options, job_id: string) {
     "-service=github",
     `-jobid=${job_id}`
   ];
-  if (options.job_number) {
-    args.push(`-jobnumber=${options.job_number}`);
-  }
   if (options.parallel) {
     args.push("-parallel");
+    if (options.job_number !== "") {
+      args.push(`-jobnumber=${options.job_number}`);
+    }
   }
   await exec.exec(get_goveralls_path(), args, {
     env: env

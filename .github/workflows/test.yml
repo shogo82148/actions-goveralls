@@ -33,7 +33,6 @@ jobs:
       with:
         path-to-profile: profile.cov
         parallel: true
-        job-number: ${{ strategy.job-index }}
 
   finish:
     needs: test
