@@ -9,6 +9,7 @@ interface Options {
   parallel: boolean;
   parallel_finished: boolean;
   job_number: string;
+  working_directory: string;
 }
 
 export async function goveralls(options: Options) {
@@ -82,7 +83,8 @@ async function run(options: Options, job_id: string) {
     }
   }
   await exec.exec(get_goveralls_path(), args, {
-    env: env
+    env: env,
+    cwd: options.working_directory
   });
 }
 

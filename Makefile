@@ -22,6 +22,3 @@ bin/goveralls_windows_amd64.exe: go.mod go.sum
 	mkdir -p bin
 	GOOS=windows GOARCH=amd64 $(GO) build -o bin/goveralls_windows_amd64.exe github.com/mattn/goveralls
 
-.PHONY: test
-test: ## run Golang test
-	go test -v -coverprofile=profile.cov ./...
