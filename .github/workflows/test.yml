@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: src/github.com/shogo82148/actions-goveralls
-      - run: git fetch --depth=1 origin $GITHUB_HEAD_REF
+      - run: test -z "${GITHUB_HEAD_REF:-}" || git fetch --depth=1 origin "$GITHUB_HEAD_REF"
         working-directory: src/github.com/shogo82148/actions-goveralls
       - run: go test -v -coverprofile=profile.cov ./...
         env:
