@@ -11,7 +11,6 @@ Add the following step snippet to your workflows.
 ```yaml
 - uses: shogo82148/actions-goveralls@v1
   with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
     path-to-profile: profile.cov
 ```
 
@@ -41,10 +40,8 @@ jobs:
       - name: Send coverage
         uses: shogo82148/actions-goveralls@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-profile: profile.cov
           parallel: true
-          job-number: ${{ strategy.job-index }}
 
   # notifies that all test jobs are finished.
   finish:
@@ -53,6 +50,5 @@ jobs:
     steps:
       - uses: shogo82148/actions-goveralls@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 ```
