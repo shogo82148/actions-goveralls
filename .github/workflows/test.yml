@@ -22,42 +22,42 @@ jobs:
           - '1.x'  # latest version
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v1
-      with:
-        go-version: "1.x"
-    - name: Set up the action
-      run: |
-        make all      # build goveralls binaries
-        npm ci        # install node modules
-        npm run build # build JavaScript
-    - run: npm test
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: "1.x"
+      - name: Set up the action
+        run: |
+          make all      # build goveralls binaries
+          npm ci        # install node modules
+          npm run build # build JavaScript
+      - run: npm test
 
-    - run: go test -v -coverprofile=profile.cov ./...
-    - run: send coverage
-      uses: ./
-      with:
-        path-to-profile: profile.cov
-        parallel: true
+      - run: go test -v -coverprofile=profile.cov ./...
+      - name: send coverage
+        uses: ./
+        with:
+          path-to-profile: profile.cov
+          parallel: true
 
   finish:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v1
-      with:
-        go-version: "1.x"
-    - name: Set up the action
-      run: |
-        make all      # build goveralls binaries
-        npm ci        # install node modules
-        npm run build # build JavaScript
-    - name: finalize parallel build
-      uses: ./
-      with: 
-        parallel-finished: true
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: "1.x"
+      - name: Set up the action
+        run: |
+          make all      # build goveralls binaries
+          npm ci        # install node modules
+          npm run build # build JavaScript
+      - name: finalize parallel build
+        uses: ./
+        with: 
+          parallel-finished: true
