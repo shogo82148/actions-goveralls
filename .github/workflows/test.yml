@@ -23,6 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
+      - run: git fetch $GITHUB_HEAD_REF
 
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v1
