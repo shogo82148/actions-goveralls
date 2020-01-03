@@ -32,6 +32,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: actions
 
       - name: Set up Go
         uses: actions/setup-go@v1
@@ -44,7 +46,9 @@ jobs:
           make all # build goveralls binaries
           npm ci        # install node modules
           npm run build # build JavaScript
+        working-directory: actions
       - run: npm test
+        working-directory: actions
 
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v1
