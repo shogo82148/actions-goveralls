@@ -23,7 +23,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - run: git fetch --depth=1 origin $GITHUB_HEAD_REF
 
       - name: Set up Go
         uses: actions/setup-go@v1
@@ -44,11 +43,20 @@ jobs:
           go-version: ${{ matrix.go }}
       - run: go version
 
+      - uses: actions/checkout@v2
+        with:
+          path: src/github.com/shogo82148/actions-goveralls
+      - run: git fetch --depth=1 origin $GITHUB_HEAD_REF
+        working-directory: src/github.com/shogo82148/actions-goveralls
       - run: go test -v -coverprofile=profile.cov ./...
+        env:
+          GO111MODULE: "on"
+        shell: bash
+        working-directory: src/github.com/shogo82148/actions-goveralls
       - name: send coverage
         uses: ./
         with:
-          path-to-profile: profile.cov
+          path-to-profile: src/github.com/shogo82148/actions-goveralls/profile.cov
           parallel: true
 
   finish:
