@@ -73,3 +73,33 @@ jobs:
         with:
           parallel-finished: true
 ```
+
+### Use with Legacy GOPATH mode
+
+If you want to use Go 1.10 or earlier, you have to set `GOPATH` environment value and the working directory.
+See <https://github.com/golang/go/wiki/GOPATH> for more detail.
+
+Here is an example for testing `example.com/owner/repo` package.
+
+```yaml
+- uses: actions/checkout@v2
+  with:
+    path: src/example.com/owner/repo
+
+# run test
+- run: go test
+  working-directory: src/example.com/owner/repo
+  env:
+    GOPATH: ${{ github.workspace }}
+
+# send coverage
+- run: git fetch --depth=1 origin "$GITHUB_HEAD_REF"
+  working-directory: src/example.com/owner/repo
+  if: github.event_name == 'pull_request'
+- uses: shogo82148/actions-goveralls@v1
+  with:
+    path-to-profile: profile.cov
+    working-directory: src/example.com/owner/repo
+  env:
+    GOPATH: ${{ github.workspace }}
+```
