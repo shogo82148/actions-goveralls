@@ -9,6 +9,7 @@ interface Options {
   parallel: boolean;
   parallel_finished: boolean;
   job_number: string;
+  working_directory: string;
 }
 
 export async function goveralls(options: Options) {
@@ -75,14 +76,15 @@ async function run(options: Options, job_id: string) {
     "-service=github",
     `-jobid=${job_id}`
   ];
-  if (options.job_number) {
-    args.push(`-jobnumber=${options.job_number}`);
-  }
   if (options.parallel) {
     args.push("-parallel");
+    if (options.job_number !== "") {
+      args.push(`-jobnumber=${options.job_number}`);
+    }
   }
   await exec.exec(get_goveralls_path(), args, {
-    env: env
+    env: env,
+    cwd: options.working_directory
   });
 }
 

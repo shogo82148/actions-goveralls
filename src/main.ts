@@ -10,7 +10,8 @@ async function run() {
       parallel_finished: parseBoolean(
         core.getInput("parallel-finished") || "false"
       ),
-      job_number: core.getInput("job-number")
+      job_number: core.getInput("job-number"),
+      working_directory: core.getInput("working-directory")
     });
   } catch (error) {
     core.setFailed(error.message);

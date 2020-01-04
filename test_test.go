@@ -1,7 +1,11 @@
-package actions
+package actions_test
 
-import "testing"
+import (
+	"github.com/shogo82148/actions-goveralls"
+)
 
-func TestRun(t *testing.T) {
-	run()
+func ExampleRun() {
+	actions.Run()
+	// Output:
+	// some awesome code here
 }
