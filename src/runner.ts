@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as exec from "@actions/exec";
-import axios, { AxiosResponse } from "axios";
 import fs from "fs";
 
 interface Options {
@@ -88,26 +87,18 @@ async function run(options: Options, job_id: string) {
   });
 }
 
-interface WebhookResult {
-  canceled: boolean;
-  done: boolean;
-  errored: boolean;
-}
-
 async function finish(options: Options, job_id: string) {
-  const payload = {
-    repo_token: options.token,
-    repo_name: process.env.GITHUB_REPOSITORY,
-    payload: { build_num: job_id, status: "done" }
+  const env = {
+    COVERALLS_TOKEN: options.token
   };
-
-  const response: AxiosResponse<WebhookResult> = await axios.post(
-    "https://coveralls.io/webhook",
-    payload
-  );
-  if (!response.data.done) {
-    throw new Error(JSON.stringify(response.data));
-  }
+  const args = [
+    `-jobid=${job_id}`,
+    "-parallel-finish"
+  ];
+  await exec.exec(get_goveralls_path(), args, {
+    env: env,
+    cwd: options.working_directory
+  });
 }
 
 function get_goveralls_path(): string {
