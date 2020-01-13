@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as exec from "@actions/exec";
-import fs from "fs";
 
 interface Options {
   token: string;
@@ -12,23 +11,14 @@ interface Options {
 }
 
 export async function goveralls(options: Options) {
-  const event = JSON.parse(
-    fs.readFileSync(process.env.GITHUB_EVENT_PATH!.toString(), "utf8")
-  );
-  const sha = process.env.GITHUB_SHA!.toString().substr(0, 9);
-  const job_id =
-    process.env.GITHUB_EVENT_NAME === "pull_request"
-      ? `${sha}-PR-${event.number}`
-      : sha;
-
   if (options.parallel_finished) {
-    await finish(options, job_id);
+    await finish(options);
   } else {
-    await run(options, job_id);
+    await run(options);
   }
 }
 
-async function run(options: Options, job_id: string) {
+async function run(options: Options) {
   const env = {
     COVERALLS_TOKEN: options.token
   };
@@ -72,8 +62,7 @@ async function run(options: Options, job_id: string) {
   }
   const args = [
     `-coverprofile=${options.profile}`,
-    "-service=github",
-    `-jobid=${job_id}`
+    "-service=github"
   ];
   if (options.parallel) {
     args.push("-parallel");
@@ -87,12 +76,11 @@ async function run(options: Options, job_id: string) {
   });
 }
 
-async function finish(options: Options, job_id: string) {
+async function finish(options: Options) {
   const env = {
     COVERALLS_TOKEN: options.token
   };
   const args = [
-    `-jobid=${job_id}`,
     "-parallel-finish"
   ];
   await exec.exec(get_goveralls_path(), args, {
