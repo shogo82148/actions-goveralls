@@ -81,7 +81,8 @@ async function finish(options: Options) {
     COVERALLS_TOKEN: options.token
   };
   const args = [
-    "-parallel-finish"
+    "-parallel-finish",
+    "-service=github"
   ];
   await exec.exec(get_goveralls_path(), args, {
     env: env,
