@@ -39,7 +39,7 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       - uses: actions/checkout@v2
-      - run: go test -v -coverprofile=profile.cov .
+      - run: go test -v -coverprofile=profile.cov ./...
 
       - name: Send coverage
         uses: shogo82148/actions-goveralls@v1
@@ -67,19 +67,19 @@ Here is an example for testing `example.com/owner/repo` package.
 ```yaml
 - uses: actions/checkout@v2
   with:
-    path: src/example.com/owner/repo
+    path: src/example.com/owner/repo # add this
 
-# run test
-- run: go test
-  working-directory: src/example.com/owner/repo
-  env:
-    GOPATH: ${{ github.workspace }}
+# add this step
+- name: Set up GOPATH
+  run: |
+    echo "::set-env name=GOPATH::${{ github.workspace }}"
+    echo "::add-path::${{ github.workspace }}/bin"
 
-# send coverage
+- run: go test -v -coverprofile=profile.cov ./...
+  working-directory: src/example.com/owner/repo # add this
+
 - uses: shogo82148/actions-goveralls@v1
   with:
     path-to-profile: profile.cov
-    working-directory: src/example.com/owner/repo
-  env:
-    GOPATH: ${{ github.workspace }}
+    working-directory: src/example.com/owner/repo # add this
 ```
