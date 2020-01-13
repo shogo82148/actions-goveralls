@@ -34,7 +34,7 @@ async function run(options: Options) {
     "GOOS",
     "GOARCH",
 
-    // GOCAHE and fall back directories
+    // GOCACHE and fall back directories
     "GOCACHE",
     "LocalAppData",
     "HOME",
