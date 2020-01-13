@@ -7,27 +7,12 @@
 
 ## SYNOPSIS
 
-### Working with Checkout V2
+### Basic Usage
 
 Add the following step snippet to your workflows.
 
 ```yaml
 - uses: actions/checkout@v2
-- run: git fetch --depth=1 origin "$GITHUB_HEAD_REF"
-  if: github.event_name == 'pull_request'
-- uses: shogo82148/actions-goveralls@v1
-  with:
-    path-to-profile: profile.cov
-```
-
-[actions/checkout@v2](https://github.com/actions/checkout/releases/tag/v2.0.0) is improved fetch performance,
-but it doesn't fetch commits required by goveralls in `pull_request` event by default.
-You have to fetch the commits by `git fetch --depth=1 origin "$GITHUB_HEAD_REF"` yourself.
-
-### Working with Checkout V1
-
-```yaml
-- uses: actions/checkout@v1
 - uses: shogo82148/actions-goveralls@v1
   with:
     path-to-profile: profile.cov
@@ -54,8 +39,6 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       - uses: actions/checkout@v2
-      - run: git fetch --depth=1 origin "$GITHUB_HEAD_REF"
-        if: github.event_name == 'pull_request'
       - run: go test -v -coverprofile=profile.cov .
 
       - name: Send coverage
@@ -93,9 +76,6 @@ Here is an example for testing `example.com/owner/repo` package.
     GOPATH: ${{ github.workspace }}
 
 # send coverage
-- run: git fetch --depth=1 origin "$GITHUB_HEAD_REF"
-  working-directory: src/example.com/owner/repo
-  if: github.event_name == 'pull_request'
 - uses: shogo82148/actions-goveralls@v1
   with:
     path-to-profile: profile.cov
