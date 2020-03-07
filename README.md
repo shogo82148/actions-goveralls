@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: ['1.11', '1.12', '1.13']
+        go: ['1.11', '1.12', '1.13', '1.14']
 
     steps:
       - uses: actions/setup-go@v1
