@@ -27,11 +27,11 @@
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
-    "@types/node": "^13.9.0",
-    "jest": "^25.1.0",
-    "jest-circus": "^25.1.0",
-    "prettier": "^1.19.1",
-    "ts-jest": "^25.2.1",
+    "@types/node": "^13.9.5",
+    "jest": "^25.2.4",
+    "jest-circus": "^25.2.4",
+    "prettier": "^2.0.2",
+    "ts-jest": "^25.3.0",
     "typescript": "^3.8.3"
   }
 }
