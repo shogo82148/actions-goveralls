@@ -22,7 +22,7 @@
   "author": "Ichinose Shogo",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.3",
+    "@actions/core": "^1.2.4",
     "@actions/exec": "^1.0.4"
   },
   "devDependencies": {
