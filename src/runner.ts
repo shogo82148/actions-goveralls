@@ -8,6 +8,7 @@ interface Options {
   parallel_finished: boolean;
   job_number: string;
   working_directory: string;
+  ignore: string;
 }
 
 export async function goveralls(options: Options) {
@@ -47,12 +48,12 @@ const go_environment_values = [
   "GITHUB_SHA",
   "GITHUB_REF",
   "GITHUB_HEAD_REF",
-  "GITHUB_BASE_REF"
+  "GITHUB_BASE_REF",
 ];
 
 async function run(options: Options) {
   const env = {
-    COVERALLS_TOKEN: options.token
+    COVERALLS_TOKEN: options.token,
   };
 
   for (const name of go_environment_values) {
@@ -61,7 +62,7 @@ async function run(options: Options) {
       env[name] = value;
     }
   }
-  const args = [`-coverprofile=${options.profile}`, "-service=github"];
+  const args = [`-coverprofile=${options.profile}`, "-service=github", `-ignore=${options.ignore}`];
   if (options.parallel) {
     args.push("-parallel");
     if (options.job_number !== "") {
@@ -70,13 +71,13 @@ async function run(options: Options) {
   }
   await exec.exec(get_goveralls_path(), args, {
     env: env,
-    cwd: options.working_directory
+    cwd: options.working_directory,
   });
 }
 
 async function finish(options: Options) {
   const env = {
-    COVERALLS_TOKEN: options.token
+    COVERALLS_TOKEN: options.token,
   };
   for (const name of go_environment_values) {
     const value = process.env[name];
@@ -87,7 +88,7 @@ async function finish(options: Options) {
   const args = ["-parallel-finish", "-service=github"];
   await exec.exec(get_goveralls_path(), args, {
     env: env,
-    cwd: options.working_directory
+    cwd: options.working_directory,
   });
 }
 
