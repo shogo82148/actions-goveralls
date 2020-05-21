@@ -4,5 +4,5 @@ go 1.14
 
 require (
 	github.com/mattn/goveralls v0.0.5
-	golang.org/x/tools v0.0.0-20200306191617-51e69f71924f // indirect
+	golang.org/x/tools v0.0.0-20200521211927-2b542361a4fc // indirect
 )
