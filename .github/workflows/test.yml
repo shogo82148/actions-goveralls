@@ -21,6 +21,11 @@ jobs:
           - '1.11' # first version that supports go modules
           - '1.x'  # latest version
 
+    defaults:
+      run:
+        shell: bash
+        working-directory: src/github.com/shogo82148/actions-goveralls
+
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -55,8 +60,6 @@ jobs:
         env:
           GO111MODULE: "on"
           GOPATH: ${{ github.workspace }}
-        shell: bash
-        working-directory: src/github.com/shogo82148/actions-goveralls
       - name: send coverage
         uses: ./actions/
         with:
