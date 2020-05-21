@@ -11,7 +11,8 @@ async function run() {
         core.getInput("parallel-finished") || "false"
       ),
       job_number: core.getInput("job-number"),
-      working_directory: core.getInput("working-directory")
+      working_directory: core.getInput("working-directory"),
+      ignore: core.getInput("ignore"),
     });
   } catch (error) {
     core.setFailed(error.message);
