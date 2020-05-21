@@ -26,6 +26,10 @@ inputs:
     description: "working directory"
     required: false
     default: '.'
+  ignore:
+    description: Comma separated files to ignore
+    required: false
+    default: ''
 
 runs:
   using: 'node12'
