@@ -38,6 +38,8 @@ const go_environment_values = [
 
   // GitHub events information
   "GITHUB_WORKFLOW",
+  "GITHUB_RUN_ID",
+  "GITHUB_RUN_NUMBER",
   "GITHUB_ACTION",
   "GITHUB_ACTIONS",
   "GITHUB_ACTOR",
