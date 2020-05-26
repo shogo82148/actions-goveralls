@@ -25,7 +25,7 @@ inputs:
   flag-name:
     description: 'Job flag name, e.g. "Unit", "Functional", or "Integration". Will be shown in the Coveralls UI.'
     required: false
-    default: '${{ github.run_number }}'
+    default: '${{ strategy.job-index }}'
   working-directory:
     description: "working directory"
     required: false
