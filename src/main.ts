@@ -10,7 +10,7 @@ async function run() {
       parallel_finished: parseBoolean(
         core.getInput("parallel-finished") || "false"
       ),
-      job_number: core.getInput("job-number"),
+      flag_name: core.getInput("flag-name"),
       working_directory: core.getInput("working-directory"),
       ignore: core.getInput("ignore"),
     });

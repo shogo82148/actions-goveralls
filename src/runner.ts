@@ -6,7 +6,7 @@ interface Options {
   profile: string;
   parallel: boolean;
   parallel_finished: boolean;
-  job_number: string;
+  flag_name: string;
   working_directory: string;
   ignore: string;
 }
@@ -38,6 +38,8 @@ const go_environment_values = [
 
   // GitHub events information
   "GITHUB_WORKFLOW",
+  "GITHUB_RUN_ID",
+  "GITHUB_RUN_NUMBER",
   "GITHUB_ACTION",
   "GITHUB_ACTIONS",
   "GITHUB_ACTOR",
@@ -69,8 +71,8 @@ async function run(options: Options) {
   ];
   if (options.parallel) {
     args.push("-parallel");
-    if (options.job_number !== "") {
-      args.push(`-jobnumber=${options.job_number}`);
+    if (options.flag_name !== "") {
+      args.push(`-flagname=${options.flag_name}`);
     }
   }
   await exec.exec(get_goveralls_path(), args, {
