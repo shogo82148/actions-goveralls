@@ -45,6 +45,7 @@ jobs:
         uses: shogo82148/actions-goveralls@v1
         with:
           path-to-profile: profile.cov
+          flag-name: Go-${{ matrix.go }}
           parallel: true
 
   # notifies that all test jobs are finished.
