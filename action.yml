@@ -19,7 +19,11 @@ inputs:
     required: false
     default: false
   job-number:
-    description: "job number"
+    description: "job number (DEPRECATED)"
+    required: false
+    default: '${{ strategy.job-index }}'
+  flag-name:
+    description: 'Job flag name, e.g. "Unit", "Functional", or "Integration". Will be shown in the Coveralls UI.'
     required: false
     default: '${{ strategy.job-index }}'
   working-directory:
