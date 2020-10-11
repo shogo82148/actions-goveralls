@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: ['1.11', '1.12', '1.13', '1.14']
+        go: ['1.11', '1.12', '1.13', '1.14', '1.15']
 
     steps:
       - uses: actions/setup-go@v1
@@ -72,9 +72,10 @@ Here is an example for testing `example.com/owner/repo` package.
 
 # add this step
 - name: Set up GOPATH
+  shell: bash
   run: |
-    echo "::set-env name=GOPATH::${{ github.workspace }}"
-    echo "::add-path::${{ github.workspace }}/bin"
+    echo "GOPATH=${{ github.workspace }}" >> "$GITHUB_ENV"
+    echo "${{ github.workspace }}/bin" >> "$GITHUB_PATH"
 
 - run: go test -v -coverprofile=profile.cov ./...
   working-directory: src/example.com/owner/repo # add this
