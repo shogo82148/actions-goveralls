@@ -115,7 +115,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: action
-          path: ./action/
+      - name: extract
+        run: tar xzvf action.tar.gz
       - name: send coverage
         uses: ./action/
         with:
@@ -133,7 +134,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: action
-          path: ./action/
+      - name: extract
+        run: tar xzvf action.tar.gz
       - name: finalize parallel build
         uses: ./action/
         with: 
