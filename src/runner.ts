@@ -1,5 +1,6 @@
 import * as path from "path";
 import * as exec from "@actions/exec";
+import * as core from "@actions/core";
 
 interface Options {
   token: string;
@@ -74,6 +75,9 @@ async function run(options: Options) {
     if (options.flag_name !== "") {
       args.push(`-flagname=${options.flag_name}`);
     }
+  }
+  if (core.isDebug()) {
+    args.push("-debug");
   }
   await exec.exec(get_goveralls_path(), args, {
     env: env,
