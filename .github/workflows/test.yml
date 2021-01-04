@@ -33,10 +33,12 @@ jobs:
           npm prune --production
         working-directory: action
 
+      - name: archive
+        run: tar czvf action.tar.gz action
       - uses: actions/upload-artifact@v2
         with:
           name: action
-          path: ./action
+          path: ./action.tar.gz
 
   # run tests with Go that doesn't support go.mod
   test:
@@ -59,7 +61,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: action
-          path: ./action/
+      - name: extract
+        run: tar xzvf action.tar.gz
 
       - name: Set up Go
         uses: actions/setup-go@v2
