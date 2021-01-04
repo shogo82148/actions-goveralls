@@ -55,10 +55,11 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
           name: action
-          path: ./action
+          path: ./action/
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -101,11 +102,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: action
-          path: ./action
-
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
@@ -113,6 +109,10 @@ jobs:
       - run: go version
 
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: action
+          path: ./action/
       - name: send coverage
         uses: ./action/
         with:
@@ -126,10 +126,11 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
           name: action
-          path: ./action
+          path: ./action/
       - name: finalize parallel build
         uses: ./action/
         with: 
