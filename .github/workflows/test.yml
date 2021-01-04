@@ -75,7 +75,7 @@ jobs:
         shell: bash
         working-directory: src/github.com/shogo82148/actions-goveralls
       - name: send coverage
-        uses: ./actions/
+        uses: ./action/
         with:
           path-to-profile: profile.cov
           parallel: true
@@ -112,7 +112,7 @@ jobs:
 
       - uses: actions/checkout@v2
       - name: send coverage
-        uses: ./actions/
+        uses: ./action/
         with:
           parallel: true
 
@@ -127,6 +127,6 @@ jobs:
         with:
           name: action
       - name: finalize parallel build
-        uses: ./actions/
+        uses: ./action/
         with: 
           parallel-finished: true
