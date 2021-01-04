@@ -7,7 +7,41 @@ on:
       - 'releases/*'
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: action
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: '1.15'
+      - run: go version
+
+      - name: Set up the action
+        run: |
+          make all      # build goveralls binaries
+          npm ci        # install node modules
+          npm run build # build JavaScript
+          npm prune --production
+        working-directory: action
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: action
+          path: ./action
+
+  # run tests with Go that doesn't support go.mod
   test:
+    needs:
+      - build
     strategy:
       fail-fast: false
       matrix:
@@ -18,31 +52,14 @@ jobs:
         go:
           - '1.7'  # minimum version that macos-latest supports
           - '1.10' # last version that doesn't support go modules
-          - '1.11' # first version that supports go modules
-          - '1.x'  # latest version
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
         with:
-          path: actions
+          name: action
 
       - name: Set up Go
-        uses: actions/setup-go@v1
-        with:
-          go-version: '1.14'
-      - run: go version
-
-      - name: Set up the action
-        run: |
-          make all      # build goveralls binaries
-          npm ci        # install node modules
-          npm run build # build JavaScript
-        working-directory: actions
-      - run: npm test
-        working-directory: actions
-
-      - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v1
         with:
           go-version: ${{ matrix.go }}
@@ -66,22 +83,50 @@ jobs:
         env:
           GOPATH: ${{ github.workspace }}
 
-  finish:
-    needs: test
-    runs-on: ubuntu-latest
+  # run tests with Go that supports go.mod
+  test-gomod:
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        go:
+          - '1.11' # first version that supports go modules
+          - '1.x'  # latest version
+
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: action
 
       - name: Set up Go
         uses: actions/setup-go@v1
         with:
-          go-version: "1.x"
-      - name: Set up the action
-        run: |
-          make all      # build goveralls binaries
-          npm ci        # install node modules
-          npm run build # build JavaScript
+          go-version: ${{ matrix.go }}
+      - run: go version
+
+      - uses: actions/checkout@v2
+      - name: send coverage
+        uses: ./actions/
+        with:
+          parallel: true
+
+  finish:
+    needs:
+      - build
+      - test
+      - test-gomod
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: action
       - name: finalize parallel build
-        uses: ./
+        uses: ./actions/
         with: 
           parallel-finished: true
