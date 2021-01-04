@@ -65,11 +65,13 @@ async function run(options: Options) {
       env[name] = value;
     }
   }
-  const args = [
-    `-coverprofile=${options.profile}`,
-    "-service=github",
-    `-ignore=${options.ignore}`,
-  ];
+  const args = ["-service=github"];
+  if (options.profile) {
+    args.push(`-coverprofile=${options.profile}`);
+  }
+  if (options.ignore) {
+    args.push(`-ignore=${options.ignore}`);
+  }
   if (options.parallel) {
     args.push("-parallel");
     if (options.flag_name !== "") {
