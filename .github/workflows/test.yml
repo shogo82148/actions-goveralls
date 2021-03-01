@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - 'releases/*'
+      - "releases/*"
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.15'
+          go-version: "1.16"
       - run: go version
 
       - name: Set up the action
@@ -52,8 +52,8 @@ jobs:
           - macos-latest
           - windows-latest
         go:
-          - '1.7'  # minimum version that macos-latest supports
-          - '1.10' # last version that doesn't support go modules
+          - "1.7" # minimum version that macos-latest supports
+          - "1.10" # last version that doesn't support go modules
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -101,8 +101,8 @@ jobs:
           - macos-latest
           - windows-latest
         go:
-          - '1.11' # first version that supports go modules
-          - '1.x'  # latest version
+          - "1.11" # first version that supports go modules
+          - "1.x" # latest version
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -140,5 +140,5 @@ jobs:
         run: tar xzvf action.tar.gz
       - name: finalize parallel build
         uses: ./action/
-        with: 
+        with:
           parallel-finished: true
