@@ -3,11 +3,47 @@ on:
   pull_request:
   push:
     branches:
-      - master
-      - 'releases/*'
+      - main
+      - "releases/*"
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: action
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.16"
+      - run: go version
+
+      - name: Set up the action
+        run: |
+          make all      # build goveralls binaries
+          npm ci        # install node modules
+          npm run build # build JavaScript
+          npm prune --production
+        working-directory: action
+
+      - name: archive
+        run: tar czvf action.tar.gz action
+      - uses: actions/upload-artifact@v2
+        with:
+          name: action
+          path: ./action.tar.gz
+
+  # run tests with Go that doesn't support go.mod
   test:
+    needs:
+      - build
     strategy:
       fail-fast: false
       matrix:
@@ -16,34 +52,20 @@ jobs:
           - macos-latest
           - windows-latest
         go:
-          - '1.7'  # minimum version that macos-latest supports
-          - '1.10' # last version that doesn't support go modules
-          - '1.11' # first version that supports go modules
-          - '1.x'  # latest version
+          - "1.7" # minimum version that macos-latest supports
+          - "1.10" # last version that doesn't support go modules
 
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
         with:
-          path: actions
+          name: action
+      - name: extract
+        run: tar xzvf action.tar.gz
 
       - name: Set up Go
-        uses: actions/setup-go@v1
-        with:
-          go-version: '1.14'
-      - run: go version
-
-      - name: Set up the action
-        run: |
-          make all      # build goveralls binaries
-          npm ci        # install node modules
-          npm run build # build JavaScript
-        working-directory: actions
-      - run: npm test
-        working-directory: actions
-
-      - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
       - run: go version
@@ -58,30 +80,65 @@ jobs:
         shell: bash
         working-directory: src/github.com/shogo82148/actions-goveralls
       - name: send coverage
-        uses: ./actions/
+        uses: ./action/
         with:
           path-to-profile: profile.cov
           parallel: true
           working-directory: src/github.com/shogo82148/actions-goveralls
+          flag-name: ${{ runner.os }}-Go-${{ matrix.go }}
         env:
           GOPATH: ${{ github.workspace }}
 
+  # run tests with Go that supports go.mod
+  test-gomod:
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        go:
+          - "1.11" # first version that supports go modules
+          - "1.x" # latest version
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - run: go version
+
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: action
+      - name: extract
+        run: tar xzvf action.tar.gz
+      - name: send coverage
+        uses: ./action/
+        with:
+          parallel: true
+          flag-name: ${{ runner.os }}-Go-${{ matrix.go }}
+
   finish:
-    needs: test
+    needs:
+      - build
+      - test
+      - test-gomod
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Set up Go
-        uses: actions/setup-go@v1
+      - uses: actions/download-artifact@v2
         with:
-          go-version: "1.x"
-      - name: Set up the action
-        run: |
-          make all      # build goveralls binaries
-          npm ci        # install node modules
-          npm run build # build JavaScript
+          name: action
+      - name: extract
+        run: tar xzvf action.tar.gz
       - name: finalize parallel build
-        uses: ./
-        with: 
+        uses: ./action/
+        with:
           parallel-finished: true

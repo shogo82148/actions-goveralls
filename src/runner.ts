@@ -1,5 +1,6 @@
 import * as path from "path";
 import * as exec from "@actions/exec";
+import * as core from "@actions/core";
 
 interface Options {
   token: string;
@@ -64,16 +65,21 @@ async function run(options: Options) {
       env[name] = value;
     }
   }
-  const args = [
-    `-coverprofile=${options.profile}`,
-    "-service=github",
-    `-ignore=${options.ignore}`,
-  ];
+  const args = ["-service=github"];
+  if (options.profile) {
+    args.push(`-coverprofile=${options.profile}`);
+  }
+  if (options.ignore) {
+    args.push(`-ignore=${options.ignore}`);
+  }
   if (options.parallel) {
     args.push("-parallel");
     if (options.flag_name !== "") {
       args.push(`-flagname=${options.flag_name}`);
     }
+  }
+  if (core.isDebug()) {
+    args.push("-debug");
   }
   await exec.exec(get_goveralls_path(), args, {
     env: env,
