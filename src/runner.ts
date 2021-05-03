@@ -118,7 +118,7 @@ async function go_env(name: string): Promise<string> {
       },
     },
   });
-  return out;
+  return out.trim();
 }
 
 function get_goveralls_path(): string {
