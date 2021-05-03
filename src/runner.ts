@@ -100,6 +100,12 @@ async function finish(options: Options) {
     }
   }
   const args = ["-parallel-finish", "-service=github"];
+  if (options.ignore) {
+    args.push(`-ignore=${options.ignore}`);
+  }
+  if (core.isDebug()) {
+    args.push("-debug");
+  }
   await exec.exec(get_goveralls_path(), args, {
     env: env,
     cwd: options.working_directory,
