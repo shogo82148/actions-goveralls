@@ -106,6 +106,14 @@ async function finish(options: Options) {
 }
 
 // run `go env` and return its value.
+//
+// goveralls doesn't use the `go list` command but uses the `go/build` package.
+// `go list` sees the `GOROOT` environment value, and its default value is typically `/usr/local/go`.
+// But sometimes it isn't, e.g. the `go` command is built from the source and customized.
+//
+// So if `GOROOT` is not configured, get its value by running `go env GOROOT`.
+//
+// see https://github.com/shogo82148/actions-goveralls/pull/216 and https://github.com/shogo82148/actions-goveralls/issues/214
 async function go_env(name: string): Promise<string> {
   let out = "";
   await exec.exec("go", ["env", name], {
