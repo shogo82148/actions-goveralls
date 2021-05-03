@@ -96,6 +96,7 @@ async function finish(options: Options) {
     const value =
       process.env[name] || (name.match(/^GO/) && (await go_env(name)));
     if (value) {
+      env[name] = value;
     }
   }
   const args = ["-parallel-finish", "-service=github"];
