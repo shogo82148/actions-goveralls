@@ -17,9 +17,12 @@ cd "$WORKING"
 
 : build the action
 git checkout -b "releases/v$MAJOR" "origin/releases/v$MAJOR" || git git checkout -b "releases/v$MAJOR" main
-git merge -X theirs -m "Merge branch 'main' into releases/v$MAJOR" main || true
+git merge --no-ff -X theirs -m "Merge branch 'main' into releases/v$MAJOR" main || true
+git checkout main -- package.json package-lock.json
 jq ".version=\"$MAJOR.$MINOR.$PATCH\"" < package.json > .tmp.json
 mv .tmp.json package.json
+jq ".version=\"$MAJOR.$MINOR.$PATCH\"" < package-lock.json > .tmp.json
+mv .tmp.json package-lock.json
 npm ci
 npm run build
 

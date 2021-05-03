@@ -60,7 +60,8 @@ async function run(options: Options) {
   };
 
   for (const name of go_environment_values) {
-    const value = process.env[name];
+    const value =
+      process.env[name] || (name.match(/^GO/) && (await go_env(name)));
     if (value) {
       env[name] = value;
     }
@@ -92,16 +93,44 @@ async function finish(options: Options) {
     COVERALLS_TOKEN: options.token,
   };
   for (const name of go_environment_values) {
-    const value = process.env[name];
+    const value =
+      process.env[name] || (name.match(/^GO/) && (await go_env(name)));
     if (value) {
       env[name] = value;
     }
   }
   const args = ["-parallel-finish", "-service=github"];
+  if (options.ignore) {
+    args.push(`-ignore=${options.ignore}`);
+  }
+  if (core.isDebug()) {
+    args.push("-debug");
+  }
   await exec.exec(get_goveralls_path(), args, {
     env: env,
     cwd: options.working_directory,
   });
+}
+
+// run `go env` and return its value.
+//
+// goveralls doesn't use the `go list` command but uses the `go/build` package.
+// `go list` sees the `GOROOT` environment value, and its default value is typically `/usr/local/go`.
+// But sometimes it isn't, e.g. the `go` command is built from the source and customized.
+//
+// So if `GOROOT` is not configured, get its value by running `go env GOROOT`.
+//
+// see https://github.com/shogo82148/actions-goveralls/pull/216 and https://github.com/shogo82148/actions-goveralls/issues/214
+async function go_env(name: string): Promise<string> {
+  let out = "";
+  await exec.exec("go", ["env", name], {
+    listeners: {
+      stdout: (data: Buffer) => {
+        out += data.toString();
+      },
+    },
+  });
+  return out.trim();
 }
 
 function get_goveralls_path(): string {
