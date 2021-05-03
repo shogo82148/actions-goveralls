@@ -63,6 +63,8 @@ async function run(options: Options) {
     const value = process.env[name];
     if (value) {
       env[name] = value;
+    } else if (name.match(/^GO/)) {
+      env[name] = await go_env(name);
     }
   }
   const args = ["-service=github"];
@@ -95,6 +97,8 @@ async function finish(options: Options) {
     const value = process.env[name];
     if (value) {
       env[name] = value;
+    } else if (name.match(/^GO/)) {
+      env[name] = await go_env(name);
     }
   }
   const args = ["-parallel-finish", "-service=github"];
@@ -102,6 +106,19 @@ async function finish(options: Options) {
     env: env,
     cwd: options.working_directory,
   });
+}
+
+// run `go env` and return its value.
+async function go_env(name: string): Promise<string> {
+  let out = "";
+  await exec.exec("go", ["env", name], {
+    listeners: {
+      stdout: (data: Buffer) => {
+        out += data.toString();
+      },
+    },
+  });
+  return out;
 }
 
 function get_goveralls_path(): string {
