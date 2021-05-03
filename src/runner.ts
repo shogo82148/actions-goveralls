@@ -60,11 +60,10 @@ async function run(options: Options) {
   };
 
   for (const name of go_environment_values) {
-    const value = process.env[name];
+    const value =
+      process.env[name] || (name.match(/^GO/) && (await go_env(name)));
     if (value) {
       env[name] = value;
-    } else if (name.match(/^GO/)) {
-      env[name] = await go_env(name);
     }
   }
   const args = ["-service=github"];
@@ -94,11 +93,9 @@ async function finish(options: Options) {
     COVERALLS_TOKEN: options.token,
   };
   for (const name of go_environment_values) {
-    const value = process.env[name];
+    const value =
+      process.env[name] || (name.match(/^GO/) && (await go_env(name)));
     if (value) {
-      env[name] = value;
-    } else if (name.match(/^GO/)) {
-      env[name] = await go_env(name);
     }
   }
   const args = ["-parallel-finish", "-service=github"];
