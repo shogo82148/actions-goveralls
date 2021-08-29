@@ -1,6 +1,6 @@
 {
   "name": "actions-goveralls",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "private": true,
   "description": "Coveralls GitHub Action with Go integration powered by mattn/goveralls",
   "main": "lib/main.js",
