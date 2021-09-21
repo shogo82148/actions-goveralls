@@ -107,6 +107,9 @@ async function finish(options: Options) {
   if (options.ignore) {
     args.push(`-ignore=${options.ignore}`);
   }
+  if (options.shallow) {
+    args.push("-shallow");
+  }
   if (core.isDebug()) {
     args.push("-debug");
   }
