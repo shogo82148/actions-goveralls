@@ -22,6 +22,7 @@ inputs:
     description: "job number (DEPRECATED)"
     required: false
     default: '${{ strategy.job-index }}'
+    deprecationMessage: "use flag-name instead"
   flag-name:
     description: 'Job flag name, e.g. "Unit", "Functional", or "Integration". Will be shown in the Coveralls UI.'
     required: false
