@@ -123,6 +123,7 @@ jobs:
         with:
           parallel: true
           flag-name: ${{ runner.os }}-Go-${{ matrix.go }}
+          shallow: true
 
   finish:
     needs:
@@ -142,3 +143,4 @@ jobs:
         uses: ./action/
         with:
           parallel-finished: true
+          shallow: true

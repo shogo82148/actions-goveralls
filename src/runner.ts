@@ -10,6 +10,7 @@ interface Options {
   flag_name: string;
   working_directory: string;
   ignore: string;
+  shallow: boolean;
 }
 
 export async function goveralls(options: Options) {
@@ -78,6 +79,9 @@ async function run(options: Options) {
     if (options.flag_name !== "") {
       args.push(`-flagname=${options.flag_name}`);
     }
+  }
+  if (options.shallow) {
+    args.push("-shallow");
   }
   if (core.isDebug()) {
     args.push("-debug");
