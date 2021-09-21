@@ -22,6 +22,7 @@ inputs:
     description: "job number (DEPRECATED)"
     required: false
     default: '${{ strategy.job-index }}'
+    deprecationMessage: "use flag-name instead"
   flag-name:
     description: 'Job flag name, e.g. "Unit", "Functional", or "Integration". Will be shown in the Coveralls UI.'
     required: false
@@ -34,6 +35,10 @@ inputs:
     description: Comma separated files to ignore
     required: false
     default: ''
+  shallow:
+    description: Shallow coveralls internal server errors
+    required: false
+    default: false
 
 runs:
   using: 'node12'

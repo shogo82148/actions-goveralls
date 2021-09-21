@@ -5,6 +5,10 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
+    ignore:
+      # update too often, ignore patch releases
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-patch"]
   - package-ecosystem: gomod
     directory: "/"
     schedule:

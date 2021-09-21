@@ -2,7 +2,7 @@ module github.com/shogo82148/actions-goveralls
 
 go 1.17
 
-require github.com/mattn/goveralls v0.0.9
+require github.com/mattn/goveralls v0.0.11
 
 require (
 	golang.org/x/mod v0.4.2 // indirect

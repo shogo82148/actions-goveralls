@@ -86,6 +86,7 @@ jobs:
           parallel: true
           working-directory: src/github.com/shogo82148/actions-goveralls
           flag-name: ${{ runner.os }}-Go-${{ matrix.go }}
+          shallow: true
         env:
           GOPATH: ${{ github.workspace }}
 
@@ -123,6 +124,7 @@ jobs:
         with:
           parallel: true
           flag-name: ${{ runner.os }}-Go-${{ matrix.go }}
+          shallow: true
 
   finish:
     needs:
@@ -142,3 +144,4 @@ jobs:
         uses: ./action/
         with:
           parallel-finished: true
+          shallow: true
