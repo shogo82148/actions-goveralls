@@ -10,6 +10,7 @@ interface Options {
   flag_name: string;
   working_directory: string;
   ignore: string;
+  shallow: boolean;
 }
 
 export async function goveralls(options: Options) {
@@ -79,6 +80,9 @@ async function run(options: Options) {
       args.push(`-flagname=${options.flag_name}`);
     }
   }
+  if (options.shallow) {
+    args.push("-shallow");
+  }
   if (core.isDebug()) {
     args.push("-debug");
   }
@@ -102,6 +106,9 @@ async function finish(options: Options) {
   const args = ["-parallel-finish", "-service=github"];
   if (options.ignore) {
     args.push(`-ignore=${options.ignore}`);
+  }
+  if (options.shallow) {
+    args.push("-shallow");
   }
   if (core.isDebug()) {
     args.push("-debug");

@@ -35,6 +35,10 @@ inputs:
     description: Comma separated files to ignore
     required: false
     default: ''
+  shallow:
+    description: Shallow coveralls internal server errors
+    required: false
+    default: false
 
 runs:
   using: 'node12'

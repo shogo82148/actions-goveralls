@@ -11,6 +11,7 @@ async function run() {
       flag_name: core.getInput("flag-name"),
       working_directory: core.getInput("working-directory"),
       ignore: core.getInput("ignore"),
+      shallow: core.getBooleanInput("shallow"),
     });
   } catch (error) {
     if (error instanceof Error) {
