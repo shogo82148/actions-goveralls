@@ -12,7 +12,7 @@
 Add the following step snippet to your workflows.
 
 ```yaml
-- uses: actions/checkout@v2
+- uses: actions/checkout@v3
 - uses: shogo82148/actions-goveralls@v1
   with:
     path-to-profile: profile.cov
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: ${{ matrix.go }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: go test -v -coverprofile=profile.cov ./...
 
       - name: Send coverage
@@ -66,7 +66,7 @@ See <https://github.com/golang/go/wiki/GOPATH> for more detail.
 Here is an example for testing `example.com/owner/repo` package.
 
 ```yaml
-- uses: actions/checkout@v2
+- uses: actions/checkout@v3
   with:
     path: src/example.com/owner/repo # add this
 
