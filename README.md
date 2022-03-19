@@ -13,6 +13,12 @@ Add the following step snippet to your workflows.
 
 ```yaml
 - uses: actions/checkout@v3
+
+- uses: actions/setup-go@v3
+  with:
+    go-version: '1.18'
+- run: go test -v -coverprofile=profile.cov ./...
+
 - uses: shogo82148/actions-goveralls@v1
   with:
     path-to-profile: profile.cov
@@ -32,10 +38,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: ['1.11', '1.12', '1.13', '1.14', '1.15']
+        go:
+          - '1.18'
+          - '1.17'
+          - '1.16'
+          - '1.15'
+          - '1.14'
+          - '1.13'
+          - '1.12'
+          - '1.11'
 
     steps:
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go }}
       - uses: actions/checkout@v3
