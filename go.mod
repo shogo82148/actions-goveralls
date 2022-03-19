@@ -1,6 +1,6 @@
 module github.com/shogo82148/actions-goveralls
 
-go 1.17
+go 1.18
 
 require github.com/mattn/goveralls v0.0.11
 
