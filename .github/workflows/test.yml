@@ -52,7 +52,7 @@ jobs:
           - macos-latest
           - windows-latest
         go:
-          - "1.7" # minimum version that macos-latest supports
+          - "1.8"  # minimum version that actions/setup-go@v3 supports
           - "1.10" # last version that doesn't support go modules
 
     runs-on: ${{ matrix.os }}
