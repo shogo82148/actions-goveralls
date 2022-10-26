@@ -1,6 +1,6 @@
 name: 'actions-goveralls'
 description: 'Coveralls GitHub Action with Go integration powered by mattn/goveralls'
-author: 'Ichinose Shogo'
+author: 'ICHINOSE Shogo'
 inputs:
   github-token:
     description: Coveralls uses this token to verify the posted coverage data on the repo and create a new check based on the results.
