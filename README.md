@@ -16,7 +16,7 @@ Add the following step snippet to your workflows.
 
 - uses: actions/setup-go@v3
   with:
-    go-version: '1.18'
+    go-version: '1.19'
 - run: go test -v -coverprofile=profile.cov ./...
 
 - uses: shogo82148/actions-goveralls@v1
@@ -39,6 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         go:
+          - '1.19'
           - '1.18'
           - '1.17'
           - '1.16'
@@ -70,32 +71,4 @@ jobs:
       - uses: shogo82148/actions-goveralls@v1
         with:
           parallel-finished: true
-```
-
-### Use with Legacy GOPATH mode
-
-If you want to use Go 1.10 or earlier, you have to set `GOPATH` environment value and the working directory.
-See <https://github.com/golang/go/wiki/GOPATH> for more detail.
-
-Here is an example for testing `example.com/owner/repo` package.
-
-```yaml
-- uses: actions/checkout@v3
-  with:
-    path: src/example.com/owner/repo # add this
-
-# add this step
-- name: Set up GOPATH
-  shell: bash
-  run: |
-    echo "GOPATH=${{ github.workspace }}" >> "$GITHUB_ENV"
-    echo "${{ github.workspace }}/bin" >> "$GITHUB_PATH"
-
-- run: go test -v -coverprofile=profile.cov ./...
-  working-directory: src/example.com/owner/repo # add this
-
-- uses: shogo82148/actions-goveralls@v1
-  with:
-    path-to-profile: profile.cov
-    working-directory: src/example.com/owner/repo # add this
 ```
