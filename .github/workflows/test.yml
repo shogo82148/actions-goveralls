@@ -22,7 +22,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version-file: 'go.mod'
+          go-version-file: 'action/go.mod'
       - run: go version
 
       - name: Set up the action
