@@ -10,19 +10,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: action
 
       - name: Set Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: 20.x
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version-file: 'action/go.mod'
+          go-version-file: "action/go.mod"
       - run: go version
 
       - name: Set up the action
@@ -35,7 +35,7 @@ jobs:
 
       - name: archive
         run: tar czvf action.tar.gz action
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: action
           path: ./action.tar.gz
@@ -50,22 +50,28 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
+          - macos-14 # for arm64
+          - macos-13 # for x64
           - windows-latest
         go:
           - "1.11" # minumum version goveralls supports
           - "oldstable"
           - "stable"
+        exclude:
+          # Go 1.11 is not supported on Apple Silicon
+          - os: macos-14
+            go: "1.11"
 
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go }}
       - run: go version
 
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: action
       - name: extract
@@ -84,8 +90,8 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: action
       - name: extract
