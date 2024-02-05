@@ -57,6 +57,10 @@ jobs:
           - "1.11" # minumum version goveralls supports
           - "oldstable"
           - "stable"
+        exclude:
+          # Go 1.11 is not supported on Apple Silicon
+          - os: macos-14
+            go: "1.11"
 
     runs-on: ${{ matrix.os }}
     steps:
