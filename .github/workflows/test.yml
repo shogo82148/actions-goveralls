@@ -22,7 +22,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: 'action/go.mod'
+          go-version-file: "action/go.mod"
       - run: go version
 
       - name: Set up the action
@@ -50,6 +50,8 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
+          - macos-14 # for arm64
+          - macos-13 # for x64
           - windows-latest
         go:
           - "1.11" # minumum version goveralls supports
