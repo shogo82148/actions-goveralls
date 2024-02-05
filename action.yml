@@ -1,15 +1,15 @@
-name: 'actions-goveralls'
-description: 'Coveralls GitHub Action with Go integration powered by mattn/goveralls'
-author: 'ICHINOSE Shogo'
+name: "actions-goveralls"
+description: "Coveralls GitHub Action with Go integration powered by mattn/goveralls"
+author: "ICHINOSE Shogo"
 inputs:
   github-token:
     description: Coveralls uses this token to verify the posted coverage data on the repo and create a new check based on the results.
     required: true
-    default: '${{ github.token }}'
+    default: "${{ github.token }}"
   path-to-profile:
     description: a path to your cover profile.
     required: false
-    default: ''
+    default: ""
   parallel:
     description: 'Set to true if you are running parallel jobs, then use "parallel_finished: true" for the last action.'
     required: false
@@ -21,29 +21,29 @@ inputs:
   job-number:
     description: "job number (DEPRECATED)"
     required: false
-    default: '${{ strategy.job-index }}'
+    default: "${{ strategy.job-index }}"
     deprecationMessage: "use flag-name instead"
   flag-name:
     description: 'Job flag name, e.g. "Unit", "Functional", or "Integration". Will be shown in the Coveralls UI.'
     required: false
-    default: '${{ strategy.job-index }}'
+    default: "${{ strategy.job-index }}"
   working-directory:
     description: "working directory"
     required: false
-    default: '.'
+    default: "."
   ignore:
     description: Comma separated files to ignore
     required: false
-    default: ''
+    default: ""
   shallow:
     description: Shallow coveralls internal server errors
     required: false
     default: false
 
 runs:
-  using: 'node16'
-  main: 'lib/main.js'
+  using: "node20"
+  main: "lib/main.js"
 
 branding:
-  color: 'green'
-  icon: 'percent'
+  color: "green"
+  icon: "percent"
