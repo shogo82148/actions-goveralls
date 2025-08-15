@@ -56,7 +56,6 @@ jobs:
           - macos-14 # for arm64
           - macos-13 # for x64
           - windows-2022
-          - windows-2019
         go:
           - "1.11" # minimum version goveralls supports
           - "oldstable"
