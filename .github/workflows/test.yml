@@ -54,6 +54,7 @@ jobs:
           - ubuntu-22.04-arm
           - macos-14 # for arm64
           - macos-13 # for x64
+          - windows-11-arm # for arm64
           - windows-2025
           - windows-2022
         go:
@@ -63,6 +64,9 @@ jobs:
         exclude:
           # Go 1.11 is not supported on Apple Silicon
           - os: macos-14
+            go: "1.11"
+          # Go 1.11 is not supported on Windows 11 ARM
+          - os: windows-11-arm
             go: "1.11"
 
     runs-on: ${{ matrix.os }}
