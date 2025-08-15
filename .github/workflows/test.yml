@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: action
 
@@ -50,13 +50,13 @@ jobs:
         os:
           - ubuntu-24.04
           - ubuntu-22.04
-          - ubuntu-20.04
           - ubuntu-24.04-arm
           - ubuntu-22.04-arm
           - macos-14 # for arm64
           - macos-13 # for x64
+          - windows-11-arm # for arm64
+          - windows-2025
           - windows-2022
-          - windows-2019
         go:
           - "1.11" # minimum version goveralls supports
           - "oldstable"
@@ -64,6 +64,9 @@ jobs:
         exclude:
           # Go 1.11 is not supported on Apple Silicon
           - os: macos-14
+            go: "1.11"
+          # Go 1.11 is not supported on Windows 11 ARM
+          - os: windows-11-arm
             go: "1.11"
 
     runs-on: ${{ matrix.os }}
@@ -74,8 +77,8 @@ jobs:
           go-version: ${{ matrix.go }}
       - run: go version
 
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v5
         with:
           name: action
       - name: extract
@@ -94,8 +97,8 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v5
         with:
           name: action
       - name: extract
