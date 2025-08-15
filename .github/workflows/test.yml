@@ -54,6 +54,7 @@ jobs:
           - ubuntu-22.04-arm
           - macos-14 # for arm64
           - macos-13 # for x64
+          - windows-11-arm # for arm64
           - windows-2025
           - windows-2022
         go:
