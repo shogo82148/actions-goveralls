@@ -65,6 +65,9 @@ jobs:
           # Go 1.11 is not supported on Apple Silicon
           - os: macos-14
             go: "1.11"
+          # Go 1.11 is not supported on Windows 11 ARM
+          - os: windows-11-arm
+            go: "1.11"
 
     runs-on: ${{ matrix.os }}
     steps:
