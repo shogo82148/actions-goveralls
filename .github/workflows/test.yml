@@ -23,9 +23,6 @@ jobs:
       - name: Set up the action
         run: |
           make all      # build goveralls binaries
-          npm ci        # install node modules
-          npm run build # build JavaScript
-          npm prune --production
         working-directory: action
 
       - name: archive
