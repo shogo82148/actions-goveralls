@@ -23,7 +23,7 @@
     "coveralls",
     "go"
   ],
-  "author": "Ichinose Shogo",
+  "author": "ICHINOSE Shogo",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.11.1",
