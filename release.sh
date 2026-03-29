@@ -23,18 +23,13 @@ jq ".version=\"$MAJOR.$MINOR.$PATCH\"" < package.json > .tmp.json
 mv .tmp.json package.json
 jq ".version=\"$MAJOR.$MINOR.$PATCH\"" < package-lock.json > .tmp.json
 mv .tmp.json package-lock.json
-npm ci
-npm run build
 
 : build goveralls
 rm -rf bin
 make "GO=$WORKING/run-in-docker.sh go" all
 
-: remove development packages from node_modules
-npm prune --production
-perl -ne 'print unless m(^/node_modules/|/lib/|/bin/$)' -i .gitignore
-
 : publish to GitHub
+perl -ne 'print unless m(^/bin/$)' -i .gitignore
 git add .
 git commit -m "bump up to v$MAJOR.$MINOR.$PATCH"
 git tag -a "v$MAJOR.$MINOR.$PATCH" -m "release v$MAJOR.$MINOR.$PATCH"

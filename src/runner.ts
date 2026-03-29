@@ -1,6 +1,9 @@
 import * as path from "path";
+import { fileURLToPath } from "url";
 import * as exec from "@actions/exec";
 import * as core from "@actions/core";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface Options {
   token: string;
@@ -56,7 +59,7 @@ const go_environment_values = [
 ];
 
 async function run(options: Options) {
-  const env = {
+  const env: { [key: string]: string } = {
     COVERALLS_TOKEN: options.token,
   };
 
@@ -93,7 +96,7 @@ async function run(options: Options) {
 }
 
 async function finish(options: Options) {
-  const env = {
+  const env: { [key: string]: string } = {
     COVERALLS_TOKEN: options.token,
   };
   for (const name of go_environment_values) {

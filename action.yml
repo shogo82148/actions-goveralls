@@ -41,8 +41,8 @@ inputs:
     default: false
 
 runs:
-  using: "node20"
-  main: "lib/main.js"
+  using: "node24"
+  main: "dist/index.js"
 
 branding:
   color: "green"

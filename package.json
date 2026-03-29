@@ -3,12 +3,16 @@
   "version": "1.10.0",
   "private": true,
   "description": "Coveralls GitHub Action with Go integration powered by mattn/goveralls",
-  "main": "lib/main.js",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "test": "jest",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts"
+    "bundle": "npm run format:write && npm run package",
+    "format:write": "npx prettier --write .",
+    "format:check": "npx prettier --check .",
+    "lint": "npx eslint .",
+    "package": "npx rimraf ./dist && npx rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js",
+    "all": "npm run format:write && npm run lint && npm run test && npm run package"
   },
   "repository": {
     "type": "git",
@@ -19,18 +23,25 @@
     "coveralls",
     "go"
   ],
-  "author": "Ichinose Shogo",
+  "author": "ICHINOSE Shogo",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/exec": "^1.1.1"
+    "@actions/core": "^3.0.0",
+    "@actions/exec": "^3.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.19.0",
-    "jest": "^30.0.5",
-    "prettier": "^3.6.2",
-    "ts-jest": "^29.4.1",
-    "typescript": ">=5.9.2"
+    "jest": "^30.3.0",
+    "prettier": "^3.8.1",
+    "rimraf": "^6.1.3",
+    "rollup": "^4.60.0",
+    "ts-jest": "^29.4.6",
+    "ts-jest-resolver": "^2.0.1",
+    "tslib": "^2.8.1",
+    "typescript": ">=5.9.3"
   }
 }
