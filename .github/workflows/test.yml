@@ -52,8 +52,9 @@ jobs:
           - ubuntu-22.04
           - ubuntu-24.04-arm
           - ubuntu-22.04-arm
+          - macos-26
           - macos-14 # for arm64
-          - macos-13 # for x64
+          - macos-15-intel # for x64
           - windows-11-arm # for arm64
           - windows-2025
           - windows-2022
@@ -64,6 +65,8 @@ jobs:
         exclude:
           # Go 1.11 is not supported on Apple Silicon
           - os: macos-14
+            go: "1.11"
+          - os: macos-26
             go: "1.11"
           # Go 1.11 is not supported on Windows 11 ARM
           - os: windows-11-arm
