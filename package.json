@@ -27,7 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^3.0.0",
-    "@actions/exec": "^1.1.1"
+    "@actions/exec": "^3.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.2",
