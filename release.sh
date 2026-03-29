@@ -23,8 +23,6 @@ jq ".version=\"$MAJOR.$MINOR.$PATCH\"" < package.json > .tmp.json
 mv .tmp.json package.json
 jq ".version=\"$MAJOR.$MINOR.$PATCH\"" < package-lock.json > .tmp.json
 mv .tmp.json package-lock.json
-npm ci
-npm run build
 
 : build goveralls
 rm -rf bin
