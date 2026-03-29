@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
-import { goveralls } from "./runner";
+import { goveralls } from "./runner.js";
 
-async function run() {
+export async function run(): Promise<void> {
   try {
     await goveralls({
       token: core.getInput("github-token"),
@@ -21,5 +21,3 @@ async function run() {
     }
   }
 }
-
-run();

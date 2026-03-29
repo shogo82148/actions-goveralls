@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "description": "Coveralls GitHub Action with Go integration powered by mattn/goveralls",
-  "main": "lib/main.js",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "test": "jest",
+    "build": "npx rimraf ./dist && npx rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts"
   },
@@ -26,11 +27,18 @@
     "@actions/exec": "^1.1.1"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.19.0",
     "jest": "^30.0.5",
     "prettier": "^3.6.2",
+    "rimraf": "^6.1.3",
+    "rollup": "^4.60.0",
     "ts-jest": "^29.4.1",
+    "ts-jest-resolver": "^2.0.1",
+    "tslib": "^2.8.1",
     "typescript": ">=5.9.2"
   }
 }
