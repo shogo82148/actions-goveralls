@@ -29228,7 +29228,7 @@ const retry = async (fn, retries, wait) => {
     }
 };
 async function goveralls(options) {
-    retry(async () => {
+    await retry(async () => {
         if (options.parallel_finished) {
             await finish(options);
         }

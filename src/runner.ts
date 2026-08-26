@@ -40,7 +40,7 @@ const retry = async <T>(
 };
 
 export async function goveralls(options: Options) {
-  retry(
+  await retry(
     async () => {
       if (options.parallel_finished) {
         await finish(options);
