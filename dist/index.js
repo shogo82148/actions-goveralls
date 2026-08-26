@@ -29236,7 +29236,7 @@ async function goveralls(options) {
             await run$1(options);
         }
     }, 3, // Retry up to 3 times
-    1000);
+    10000);
 }
 // copy environment values related to Go
 const go_environment_values = [

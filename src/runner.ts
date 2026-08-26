@@ -49,7 +49,7 @@ export async function goveralls(options: Options) {
       }
     },
     3, // Retry up to 3 times
-    1000, // Initial wait of 1 second
+    10000, // Initial wait of 10 second
   );
 }
 
