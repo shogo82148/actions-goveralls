@@ -16,12 +16,41 @@ interface Options {
   shallow: boolean;
 }
 
-export async function goveralls(options: Options) {
-  if (options.parallel_finished) {
-    await finish(options);
-  } else {
-    await run(options);
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const retry = async <T>(
+  fn: () => Promise<T>,
+  retries: number,
+  wait: number,
+): Promise<T> => {
+  try {
+    return await fn();
+  } catch (error) {
+    if (retries > 0) {
+      const waitTime = wait + Math.floor(Math.random() * 1000); // Add some jitter
+      core.warning(
+        `Retrying... Attempts left: ${retries}. Waiting for ${waitTime}ms before retrying.`,
+      );
+      await sleep(waitTime);
+      wait = Math.min(wait * 2, 30000); // Exponential backoff with cap at 30 seconds
+      return retry(fn, retries - 1, wait);
+    }
+    throw error;
   }
+};
+
+export async function goveralls(options: Options) {
+  await retry(
+    async () => {
+      if (options.parallel_finished) {
+        await finish(options);
+      } else {
+        await run(options);
+      }
+    },
+    3, // Retry up to 3 times
+    10000, // Initial wait of 10 second
+  );
 }
 
 // copy environment values related to Go

@@ -16163,15 +16163,15 @@ function requireRedirect () {
 	return redirect;
 }
 
-var retry;
+var retry$1;
 var hasRequiredRetry;
 
 function requireRetry () {
-	if (hasRequiredRetry) return retry;
+	if (hasRequiredRetry) return retry$1;
 	hasRequiredRetry = 1;
 	const RetryHandler = requireRetryHandler();
 
-	retry = globalOpts => {
+	retry$1 = globalOpts => {
 	  return dispatch => {
 	    return function retryInterceptor (opts, handler) {
 	      return dispatch(
@@ -16187,7 +16187,7 @@ function requireRetry () {
 	    }
 	  }
 	};
-	return retry;
+	return retry$1;
 }
 
 var dump;
@@ -29201,15 +29201,42 @@ function isDebug() {
 function error(message, properties = {}) {
     issueCommand('error', toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
+/**
+ * Adds a warning issue
+ * @param message warning issue message. Errors will be converted to string via toString()
+ * @param properties optional properties to add to the annotation.
+ */
+function warning(message, properties = {}) {
+    issueCommand('warning', toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+}
 
 const __dirname$1 = path.dirname(fileURLToPath(import.meta.url));
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const retry = async (fn, retries, wait) => {
+    try {
+        return await fn();
+    }
+    catch (error) {
+        if (retries > 0) {
+            const waitTime = wait + Math.floor(Math.random() * 1000); // Add some jitter
+            warning(`Retrying... Attempts left: ${retries}. Waiting for ${waitTime}ms before retrying.`);
+            await sleep(waitTime);
+            wait = Math.min(wait * 2, 30000); // Exponential backoff with cap at 30 seconds
+            return retry(fn, retries - 1, wait);
+        }
+        throw error;
+    }
+};
 async function goveralls(options) {
-    if (options.parallel_finished) {
-        await finish(options);
-    }
-    else {
-        await run$1(options);
-    }
+    await retry(async () => {
+        if (options.parallel_finished) {
+            await finish(options);
+        }
+        else {
+            await run$1(options);
+        }
+    }, 3, // Retry up to 3 times
+    10000);
 }
 // copy environment values related to Go
 const go_environment_values = [
